@@ -1,0 +1,12 @@
+data <- read.table("household_power_consumption.txt", sep = ";", head = T)
+library(dplyr)
+library(lubridate)
+data$Date <- dmy(data$Date)
+data$Time <- hms(data$Time)
+data <- data %>%
+      filter(Date >= ymd("2007-02-01") & Date <= ymd("2007-02-02"))
+data$Global_active_power <- as.numeric(as.character(data$Global_active_power))
+par(mfrow = c(1,1), mar = c(5.1, 4.1, 4.1, 2.1), pty = "s")
+png(filename="plot1.png", width = 480, height = 480)
+hist(data$Global_active_power, col = "red", main = "Global Active Power", xlab = "Global Active Power (killowats)")
+dev.off()
